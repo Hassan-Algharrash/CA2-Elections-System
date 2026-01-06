@@ -110,5 +110,19 @@ public class HashTable<K, V> {
         }
     }
 
+    public DynamicArray<V> values() {
+        DynamicArray<V> list = new DynamicArray<>();
+
+        for (Entry<K, V> entry : table) {
+            if (entry == null || entry.isDeleted) {
+                continue;
+            }
+            else {
+                list.add(entry.value);
+            }
+        }
+        return list;
+    }
+
 
 }

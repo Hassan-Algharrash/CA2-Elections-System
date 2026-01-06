@@ -1,4 +1,5 @@
 package models;
+import Controller.DynamicArray;
 
 public class Election {
 
@@ -7,6 +8,8 @@ public class Election {
     private String location;
     private int year;
     private int seats;
+
+    private DynamicArray<Candidate> candidates = new DynamicArray<>();
 
     // Constructor
     public Election(String id, ElectionType type, String location, int year, int seats) {
@@ -55,6 +58,14 @@ public class Election {
 
     public void setSeats(int seats) {
         this.seats = seats;
+    }
+
+    public DynamicArray<Candidate> getCandidates() {
+        return candidates;
+    }
+
+    public void setCandidates(DynamicArray<Candidate> candidates) {
+        this.candidates = candidates;
     }
 
     @Override
