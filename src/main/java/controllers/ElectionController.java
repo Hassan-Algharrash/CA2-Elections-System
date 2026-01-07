@@ -18,8 +18,6 @@ public class ElectionController implements Initializable {
     private ObservableList<Candidate> candidateList = FXCollections.observableArrayList();
 
 
-
-
     @FXML
     private ListView<Election> electionListView;
     @FXML
@@ -27,23 +25,29 @@ public class ElectionController implements Initializable {
     @FXML
     private ListView<Candidate> candidateListView;
 
-    @FXML private TextField searchPolNameField;
-    @FXML private TextField searchPolPartyField;
-    @FXML private TextField searchPolCountyField;
+    @FXML
+    private TextField searchPolNameField;
+    @FXML
+    private TextField searchPolPartyField;
+    @FXML
+    private TextField searchPolCountyField;
 
-    @FXML private TextField searchElectionIdField;
-    @FXML private ChoiceBox<ElectionType> searchElectionTypeField;
-    @FXML private TextField searchElectionLocationField;
-    @FXML private TextField searchElectionYearField;
+    @FXML
+    private TextField searchElectionIdField;
+    @FXML
+    private ChoiceBox<ElectionType> searchElectionTypeField;
+    @FXML
+    private TextField searchElectionLocationField;
+    @FXML
+    private TextField searchElectionYearField;
 
-    @FXML private ListView<Object> searchResultsListView;
+    @FXML
+    private ListView<Object> searchResultsListView;
 
 
-
-
-    public void setAPI(ElectionAPI api) { this.electionAPI = api; }
-
-
+    public void setAPI(ElectionAPI api) {
+        this.electionAPI = api;
+    }
 
     @FXML
     private void addElection() {
@@ -187,8 +191,6 @@ public class ElectionController implements Initializable {
         if (p != null) {
             politicianList.add(p);
         }
-
-
     }
 
     @FXML
@@ -358,75 +360,115 @@ public class ElectionController implements Initializable {
         String name = searchPolNameField.getText();
         String party = searchPolPartyField.getText();
         String county = searchPolCountyField.getText();
-
-        DynamicArray<Politician> results = electionAPI.searchPoliticians(name, party, county);
-
-        // Convert DynamicArray → ObservableList
-        ObservableList<Object> list = FXCollections.observableArrayList();
-        for (int i = 0; i < results.size(); i++) {
-            list.add(results.get(i));
-        }
-
-        searchResultsListView.setItems(list);
-
-        System.out.println("SearchResultsListView = " + searchResultsListView);
-        System.out.println("Search returned " + results.size() + " items");
-
-    }
-
-    @FXML
-    private void searchElections() {
-
-        String id = searchElectionIdField.getText();
-        ElectionType type = searchElectionTypeField.getValue();
-        String location = searchElectionLocationField.getText();
-
-        Integer year = null;
-        if (!searchElectionYearField.getText().trim().isEmpty()) {
-            year = Integer.parseInt(searchElectionYearField.getText().trim());
-        }
-
-        DynamicArray<Election> results = electionAPI.searchElections(id, type, location, year);
-
-        ObservableList<Object> list = FXCollections.observableArrayList();
-        for (int i = 0; i < results.size(); i++) {
-            list.add(results.get(i));
-        }
-
-        searchResultsListView.setItems(list);
-
-        System.out.println("SearchResultsListView = " + searchResultsListView);
-        System.out.println("Search returned " + results.size() + " items");
-
     }
 
 
 
+        private void save () {
+            try {
+                electionAPI.save();
+            } catch (Exception e) {
+                System.err.println("Error Saving File: " + e.getMessage());
+            }
+        }
 
 
+    private void clear() {
+        electionAPI.clear();
 
-
-    public void loadInitialData() {
-
-        // load elections
         electionList.clear();
-        DynamicArray<Election> allElections = electionAPI.getAllElections();
-        for (int i = 0; i < allElections.size(); i++) {
-            electionList.add(allElections.get(i));
-        }
-
-        // load politicians
         politicianList.clear();
-        DynamicArray<Politician> allPoliticians = electionAPI.getAllPoliticians();
-        for (int i = 0; i < allPoliticians.size(); i++) {
-            politicianList.add(allPoliticians.get(i));
-        }
+        candidateList.clear();
 
+        electionListView.getItems().clear();
+        politicianListView.getItems().clear();
+        candidateListView.getItems().clear();
+
+        searchResultsListView.getItems().clear();
+
+        System.out.println("Cleared all data");
     }
 
 
+    private void searchElections () {
+
+            String id = searchElectionIdField.getText();
+            ElectionType type = searchElectionTypeField.getValue();
+            String location = searchElectionLocationField.getText();
+
+            Integer year = null;
+            if (!searchElectionYearField.getText().trim().isEmpty()) {
+                year = Integer.parseInt(searchElectionYearField.getText().trim());
+            }
+
+            DynamicArray<Election> results = electionAPI.searchElections(id, type, location, year);
+
+            ObservableList<Object> list = FXCollections.observableArrayList();
+            for (int i = 0; i < results.size(); i++) {
+                list.add(results.get(i));
+            }
+
+            searchResultsListView.setItems(list);
+
+            System.out.println("SearchResultsListView = " + searchResultsListView);
+            System.out.println("Search returned " + results.size() + " items");
+
+        }
 
 
+
+
+        public void loadInitialData() {
+            // load elections
+            electionList.clear();
+            DynamicArray<Election> allElections = electionAPI.getAllElections();
+            for (int i = 0; i < allElections.size(); i++) {
+                electionList.add(allElections.get(i));
+            }
+
+            // load politicians
+            politicianList.clear();
+            DynamicArray<Politician> allPoliticians = electionAPI.getAllPoliticians();
+            for (int i = 0; i < allPoliticians.size(); i++) {
+                politicianList.add(allPoliticians.get(i));
+            }
+            refreshAll();
+        }
+
+
+
+        private void refreshAll() {
+            electionListView.refresh();
+            politicianListView.refresh();
+            candidateListView.refresh();
+
+    }
+
+    private void populateListViews() {
+        for (int i = 0; i < electionAPI.getAllElections().size(); i++) {
+            Election election = electionAPI.getAllElections().get(i);
+            electionList.add(election);
+            electionListView.getItems().add(election);
+        }
+
+        for (int i = 0; i < electionAPI.getAllPoliticians().size(); i++) {
+            Politician politician = electionAPI.getAllPoliticians().get(i);
+            politicianList.add(politician);
+            politicianListView.getItems().add(politician);
+        }
+
+        for (int i = 0; i < electionAPI.getAllElections().size(); i++) {
+            Election election = electionAPI.getAllElections().get(i);
+            electionList.add(election);
+            electionListView.getItems().add(election);
+
+            for (int j = 0; j < electionAPI.getAllElections().get(i).getCandidates().size(); j++) {
+                Candidate candidate = electionAPI.getAllElections().get(i).getCandidates().get(j);
+                candidateList.add(candidate);
+                candidateListView.getItems().add(candidate);
+            }
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -436,6 +478,8 @@ public class ElectionController implements Initializable {
         searchElectionTypeField.getItems().addAll(ElectionType.values());
 
 
+        //repopulate lists from the save file
+        populateListViews();
     }
 
 

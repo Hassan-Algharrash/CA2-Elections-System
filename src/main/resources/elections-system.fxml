@@ -56,6 +56,8 @@
                               <Button layoutX="667.0" layoutY="275.0" mnemonicParsing="false" onAction="#editCandidate" text="Edit" />
                               <Button layoutX="711.0" layoutY="275.0" mnemonicParsing="false" onAction="#deleteCandidate" text="Remove" />
                               <ListView fx:id="candidateListView" layoutX="623.0" layoutY="69.0" prefHeight="200.0" prefWidth="200.0" />
+                              <Button layoutX="390.0" layoutY="386.0" mnemonicParsing="false" onAction="#save" prefHeight="25.0" prefWidth="49.0" text="Save" />
+                              <Button layoutX="454.0" layoutY="386.0" mnemonicParsing="false" onAction="#clear" prefHeight="25.0" prefWidth="49.0" text="Clear" />
                            </children>
                         </AnchorPane>
                   </content>
