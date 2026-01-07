@@ -13,7 +13,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ElectionController implements Initializable {
-    private ElectionAPI electionAPI;
+    private ElectionAPI electionAPI = new ElectionAPI();
 
     private ObservableList<Election> electionList = FXCollections.observableArrayList();
     private ObservableList<Politician> politicianList = FXCollections.observableArrayList();
@@ -29,8 +29,15 @@ public class ElectionController implements Initializable {
     @FXML
     private ListView<Candidate> candidateListView;
 
-    public ElectionController() {}
-    public void setAPI(ElectionAPI api) { this.electionAPI = api; }
+    public void setAPI(ElectionAPI api) {
+        this.electionAPI = api;
+
+        try {
+            electionAPI = electionAPI.load();
+        } catch (Exception e) {
+            System.err.println("Error Loading File: " + e.getMessage());
+        }
+    }
 
     @FXML
     private void addElection() {
@@ -328,11 +335,61 @@ public class ElectionController implements Initializable {
         candidateList.remove(c);
     }
 
+    @FXML
+    private void save() {
+        try {
+            electionAPI.save();
+        } catch (Exception e) {
+            System.err.println("Error Saving File: " + e.getMessage());
+        }
+    }
 
+    @FXML
+    private void clear() {
+        electionAPI.clear();
 
+        electionList.clear();
+        politicianList.clear();
+        candidateList.clear();
 
+        electionListView.getItems().clear();
+        politicianListView.getItems().clear();
+        candidateListView.getItems().clear();
 
+        refreshAll();
+    }
 
+    private void refreshAll() {
+        electionListView.refresh();
+        politicianListView.refresh();
+        candidateListView.refresh();
+    }
+
+    private void populateListViews() {
+        for (int i = 0; i < electionAPI.getAllElections().size(); i++) {
+            Election election = electionAPI.getAllElections().get(i);
+            electionList.add(election);
+            electionListView.getItems().add(election);
+        }
+
+        for (int i = 0; i < electionAPI.getAllPoliticians().size(); i++) {
+            Politician politician = electionAPI.getAllPoliticians().get(i);
+            politicianList.add(politician);
+            politicianListView.getItems().add(politician);
+        }
+
+        for (int i = 0; i < electionAPI.getAllElections().size(); i++) {
+            Election election = electionAPI.getAllElections().get(i);
+            electionList.add(election);
+            electionListView.getItems().add(election);
+
+            for (int j = 0; j < electionAPI.getAllElections().get(i).getCandidates().size(); j++) {
+                Candidate candidate = electionAPI.getAllElections().get(i).getCandidates().get(j);
+                candidateList.add(candidate);
+                candidateListView.getItems().add(candidate);
+            }
+        }
+    }
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -340,6 +397,8 @@ public class ElectionController implements Initializable {
         politicianListView.setItems(politicianList);
         candidateListView.setItems(candidateList);
 
+        //repopulate lists from the save file
+        populateListViews();
     }
 
 

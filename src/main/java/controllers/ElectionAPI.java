@@ -1,10 +1,16 @@
 package controllers;
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.io.xml.DomDriver;
 import models.*;
 import utils.Utilities;
+
+import java.io.*;
 
 public class ElectionAPI {
     HashTable<String, Politician> politicians = new HashTable<>(10);
     HashTable<String, Election> elections = new HashTable<>(5);
+
+    private final File file = new File("elections-system-save.xml");
 
     public Politician addPolitician(Politician politician) {
         if (politician == null) {
@@ -250,4 +256,48 @@ public class ElectionAPI {
         Utilities.insertionSort(politicians.toArray(), politicianComparator);
     }
 
+    public void save() throws Exception {
+        var xstream = new XStream(new DomDriver());
+        ObjectOutputStream os = xstream.createObjectOutputStream(new FileWriter(file));
+        os.writeObject(this);
+        os.close();
+    }
+
+    public ElectionAPI load() throws Exception {
+        //list of classes that you wish to include in the serialization, separated by a comma
+        Class<?>[] classes = new Class[] {
+                ElectionAPI.class,
+                Candidate.class,
+                Election.class,
+                Politician.class };
+
+        //setting up the xstream object with default security and the above classes
+        XStream xstream = new XStream(new DomDriver());
+        XStream.setupDefaultSecurity(xstream);
+        xstream.allowTypes(classes);
+
+        //doing the actual serialization to an XML file
+        ObjectInputStream in = xstream.createObjectInputStream(new FileReader(file));
+
+        ElectionAPI electionAPI = (ElectionAPI) in.readObject();
+        in.close();
+
+        return electionAPI;
+    }
+
+    public DynamicArray<Politician> getAllPoliticians() {
+        return this.politicians.values();
+    }
+
+    public DynamicArray<Election> getAllElections() {
+        return this.elections.values();
+    }
+
+    public boolean clear() {
+        if (file.exists()) {
+            return file.delete();
+        }
+
+        return false;
+    }
 }
