@@ -11,7 +11,7 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class ElectionController implements Initializable {
-    private ElectionAPI electionAPI;
+    private ElectionAPI electionAPI = new ElectionAPI();
 
     private ObservableList<Election> electionList = FXCollections.observableArrayList();
     private ObservableList<Politician> politicianList = FXCollections.observableArrayList();
@@ -363,16 +363,16 @@ public class ElectionController implements Initializable {
     }
 
 
-
-        private void save () {
-            try {
-                electionAPI.save();
-            } catch (Exception e) {
-                System.err.println("Error Saving File: " + e.getMessage());
-            }
+    @FXML
+    private void save () {
+        try {
+            electionAPI.save();
+        } catch (Exception e) {
+            System.err.println("Error Saving File: " + e.getMessage());
         }
+    }
 
-
+    @FXML
     private void clear() {
         electionAPI.clear();
 
@@ -389,7 +389,7 @@ public class ElectionController implements Initializable {
         System.out.println("Cleared all data");
     }
 
-
+    @FXML
     private void searchElections () {
 
             String id = searchElectionIdField.getText();
@@ -414,9 +414,6 @@ public class ElectionController implements Initializable {
             System.out.println("Search returned " + results.size() + " items");
 
         }
-
-
-
 
         public void loadInitialData() {
             // load elections
