@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ChoiceBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ElectionController">
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="920.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.ElectionController">
    <center>
       <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
          <children>
@@ -59,7 +62,26 @@
                 </Tab>
                 <Tab text="Search">
                   <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <TextField fx:id="searchPolNameField" layoutX="94.0" layoutY="120.0" prefHeight="59.0" prefWidth="149.0" />
+                              <TextField fx:id="searchPolPartyField" layoutX="94.0" layoutY="225.0" prefHeight="66.0" prefWidth="149.0" />
+                              <TextField fx:id="searchPolCountyField" layoutX="93.0" layoutY="340.0" prefHeight="60.0" prefWidth="149.0" />
+                              <Button layoutX="143.0" layoutY="434.0" mnemonicParsing="false" onAction="#searchPoliticians" text="Search" />
+                              <Text layoutX="153.0" layoutY="103.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Name" />
+                              <Text layoutX="150.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="County" />
+                              <Text layoutX="155.0" layoutY="211.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Party" />
+                              <TextField fx:id="searchElectionIdField" layoutX="656.0" layoutY="138.0" prefHeight="59.0" prefWidth="149.0" />
+                              <TextField fx:id="searchElectionLocationField" layoutX="656.0" layoutY="231.0" prefHeight="59.0" prefWidth="149.0" />
+                              <TextField fx:id="searchElectionYearField" layoutX="656.0" layoutY="340.0" prefHeight="59.0" prefWidth="149.0" />
+                              <Button layoutX="705.0" layoutY="434.0" mnemonicParsing="false" onAction="#searchElections" text="Search" />
+                              <ChoiceBox fx:id="searchElectionTypeField" layoutX="656.0" layoutY="73.0" prefWidth="150.0" />
+                              <Text layoutX="694.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text=" Election Type" />
+                              <Text layoutX="703.0" layoutY="124.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Election Id" />
+                              <Text layoutX="686.0" layoutY="218.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Election Location" />
+                              <Text layoutX="697.0" layoutY="322.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Election Year" />
+                              <ListView fx:id="searchResultsListView" layoutX="351.0" layoutY="138.0" prefHeight="200.0" prefWidth="200.0" />
+                           </children></AnchorPane>
                   </content>
                 </Tab>
               </tabs>

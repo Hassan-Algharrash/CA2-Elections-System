@@ -70,7 +70,8 @@ public class Politician {
 
     @Override
     public String toString() {
-        return name + " (" + currentParty + ")";
+        return name + " (" + currentParty + ", " + homeCounty + ")";
     }
+
 
 }

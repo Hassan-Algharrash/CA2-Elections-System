@@ -6,6 +6,7 @@ public class ElectionAPI {
     HashTable<String, Politician> politicians = new HashTable<>(10);
     HashTable<String, Election> elections = new HashTable<>(5);
 
+
     public Politician addPolitician(Politician politician) {
         if (politician == null) {
             System.out.println("Invalid Input");
@@ -17,7 +18,11 @@ public class ElectionAPI {
 
         politicians.put(politicianId, politician);
 
+        System.out.println("Calling put() with key = " + politicianId);
+        politicians.put(politicianId, politician);
+        System.out.println("HashTable size after put = " + politicians.size());
         return politicians.get(politicianId);
+
     }
 
     public Politician editPolitician(String politicianId, Politician newPolitician) {
@@ -249,5 +254,14 @@ public class ElectionAPI {
 
         Utilities.insertionSort(politicians.toArray(), politicianComparator);
     }
+
+    public DynamicArray<Election> getAllElections() {
+        return elections.values();
+    }
+
+    public DynamicArray<Politician> getAllPoliticians() {
+        return politicians.values();
+    }
+
 
 }

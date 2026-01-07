@@ -18,6 +18,7 @@ public class DynamicArray<T> {
             resize();
         }
         data[size] = element;
+        size++;
     }
 
     //adds an array at a sepcified index

@@ -30,15 +30,24 @@ public class HashTable<K, V> {
     //finds the correct slot for a key using linear probing, itll keep going until it finds the correct key or an empty slot
     private int findSlot(K key) {
         int index = Math.abs(key.hashCode()) % capacity;
+        int firstDeleted = -1;
 
         while (table[index] != null) {
-            if (table[index].key.equals(key) && !table[index].isDeleted) {
-                return index;
+            if (!table[index].isDeleted && table[index].key.equals(key)) {
+                return index; // exact match
             }
+
+            if (table[index].isDeleted && firstDeleted == -1) {
+                firstDeleted = index; // remember first deleted slot
+            }
+
             index = (index + 1) % capacity;
         }
-        return index;
+
+        // if we saw a deleted slot, reuse it
+        return (firstDeleted != -1) ? firstDeleted : index;
     }
+
 
     //makes the table bigger when it gets too full so we just double the size and reinsert it all
     private void resize() {
@@ -46,6 +55,7 @@ public class HashTable<K, V> {
 
         capacity *= 2;
         Entry<K, V>[] newTable = new Entry[capacity];
+        table = newTable;
         size = 0;
 
         //reinsert everything

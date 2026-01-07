@@ -70,6 +70,7 @@ public class Election {
 
     @Override
     public String toString() {
-        return "Type: " + type;
+        return id + " — " + type + " — " + location + " (" + year + ")";
     }
+
 }
