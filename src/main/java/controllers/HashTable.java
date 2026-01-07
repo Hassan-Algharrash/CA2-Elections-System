@@ -1,4 +1,4 @@
-package Controller;
+package controllers;
 
 public class HashTable<K, V> {
 
@@ -31,7 +31,10 @@ public class HashTable<K, V> {
     private int findSlot(K key) {
         int index = Math.abs(key.hashCode()) % capacity;
 
-        while (table[index] != null && !table[index].key.equals(key) || !table[index].isDeleted) {
+        while (table[index] != null) {
+            if (table[index].key.equals(key) && !table[index].isDeleted) {
+                return index;
+            }
             index = (index + 1) % capacity;
         }
         return index;

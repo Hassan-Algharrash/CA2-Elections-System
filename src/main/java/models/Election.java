@@ -1,5 +1,5 @@
 package models;
-import Controller.DynamicArray;
+import controllers.DynamicArray;
 
 public class Election {
 
@@ -70,12 +70,6 @@ public class Election {
 
     @Override
     public String toString() {
-        return "Election{" +
-                "id='" + id + '\'' +
-                ", type=" + type +
-                ", location='" + location + '\'' +
-                ", year=" + year +
-                ", seats=" + seats +
-                '}';
+        return "Type: " + type;
     }
 }

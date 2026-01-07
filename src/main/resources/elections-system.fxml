@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.control.TabPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="580.0" prefWidth="920.0" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.ElectionController">
+   <center>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <children>
+            <TabPane prefHeight="580.0" prefWidth="920.0" tabClosingPolicy="UNAVAILABLE">
+              <tabs>
+                <Tab text="Main Menu">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                           <children>
+                              <Label layoutX="336.0" layoutY="7.0" text="Elections Information System">
+                                 <font>
+                                    <Font name="System Bold" size="18.0" />
+                                 </font>
+                              </Label>
+                              <Separator layoutX="327.0" layoutY="32.0" prefHeight="5.0" prefWidth="262.0" />
+                              <Label layoutX="153.0" layoutY="45.0" text="Elections">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="98.0" layoutY="277.0" mnemonicParsing="false" onAction="#addElection" text="Add" />
+                              <Button layoutX="142.0" layoutY="277.0" mnemonicParsing="false" onAction="#editElection" text="Edit" />
+                              <Button layoutX="186.0" layoutY="277.0" mnemonicParsing="false" onAction="#deleteElection" text="Remove" />
+                              <ListView fx:id="electionListView" layoutX="98.0" layoutY="71.0" prefHeight="200.0" prefWidth="200.0" />
+                              <Label layoutX="413.0" layoutY="45.0" text="Politicians">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="358.0" layoutY="277.0" mnemonicParsing="false" text="Add" />
+                              <Button layoutX="402.0" layoutY="277.0" mnemonicParsing="false" text="Edit" />
+                              <Button layoutX="446.0" layoutY="277.0" mnemonicParsing="false" text="Remove" />
+                              <ListView fx:id="politicianListView" layoutX="358.0" layoutY="71.0" prefHeight="200.0" prefWidth="200.0" />
+                              <Label layoutX="678.0" layoutY="43.0" text="Candidates">
+                                 <font>
+                                    <Font name="System Bold" size="16.0" />
+                                 </font>
+                              </Label>
+                              <Button layoutX="623.0" layoutY="275.0" mnemonicParsing="false" text="Add" />
+                              <Button layoutX="667.0" layoutY="275.0" mnemonicParsing="false" text="Edit" />
+                              <Button layoutX="711.0" layoutY="275.0" mnemonicParsing="false" text="Remove" />
+                              <ListView fx:id="candidateListView" layoutX="623.0" layoutY="69.0" prefHeight="200.0" prefWidth="200.0" />
+                           </children>
+                        </AnchorPane>
+                  </content>
+                </Tab>
+                <Tab text="Search">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </Tab>
+              </tabs>
+            </TabPane>
+         </children>
+      </AnchorPane>
+   </center>
+</BorderPane>

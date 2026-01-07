@@ -1,5 +1,6 @@
-package Controller;
+package controllers;
 import models.*;
+import utils.Utilities;
 
 public class ElectionAPI {
     HashTable<String, Politician> politicians = new HashTable<>(10);
@@ -84,7 +85,6 @@ public class ElectionAPI {
         elections.remove(electionId);
     }
 
-    // todo implement these
     public void addCandidateToElection(String electionId, Candidate candidate) {
 
         if(electionId == null || electionId.trim().isEmpty() || candidate == null) {
@@ -238,6 +238,15 @@ public class ElectionAPI {
             }
         }
         return results;
+    }
+
+    //todo test this not sure if it works
+    public void sortPoliticians(String name) {
+        DynamicArray<Politician> politicians = this.politicians.values();
+
+        Comparator<Politician> politicianComparator = (a,b) -> a.getName().compareTo(name);
+
+        Utilities.insertionSort(politicians.toArray(), politicianComparator);
     }
 
 }
