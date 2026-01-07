@@ -1,5 +1,7 @@
-package main;
+package Main;
 
+import controllers.ElectionAPI;
+import controllers.ElectionController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,12 +16,25 @@ public class MainApp extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("elections-system"), 920, 580);
+
+        ElectionAPI api = new ElectionAPI(); // shared instance
+
+        FXMLLoader loader = new FXMLLoader(MainApp.class.getResource("/elections-system.fxml"));
+        Parent root = loader.load();
+
+        // Inject the shared API into the controller
+        ElectionController controller = loader.getController();
+        controller.setAPI(api);
+
+        Scene scene = new Scene(root, 920, 580);
         stage.setTitle("Elections Information System");
         stage.setScene(scene);
-        stage.show();
         stage.setResizable(false);
+        stage.show();
     }
+
+
+
 
     static void setRoot(String fxml) throws IOException {
         scene.setRoot(loadFXML(fxml));

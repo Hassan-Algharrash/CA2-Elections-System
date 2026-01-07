@@ -5,7 +5,7 @@ module org.example {
     requires xstream;
 
     opens controllers to javafx.fxml;
-    exports main;
+    exports Main;
     exports models;
     exports controllers;
     exports utils;

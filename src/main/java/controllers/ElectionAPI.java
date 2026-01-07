@@ -13,6 +13,8 @@ public class ElectionAPI {
         }
 
         String politicianId = IdGenerator.newPoliticianId();
+        politician.setId(politicianId);
+
         politicians.put(politicianId, politician);
 
         return politicians.get(politicianId);
@@ -47,16 +49,15 @@ public class ElectionAPI {
     }
 
     public Election addElection(Election election) {
-        if (election == null) {
-            System.err.println("Invalid Input");
-            return  null;
-        }
+        if (election == null) return null;
 
         String electionId = IdGenerator.newElectionId();
-        elections.put(electionId, election);
+        election.setId(electionId);
 
-        return elections.get(electionId);
+        elections.put(electionId, election);
+        return election;
     }
+
 
     public Election editElection(String electionId, Election newElection) {
         if (newElection == null) {

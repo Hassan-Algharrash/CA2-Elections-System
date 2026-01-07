@@ -70,13 +70,7 @@ public class Politician {
 
     @Override
     public String toString() {
-        return "Politician{" +
-                "id='" + id + '\'' +
-                ", name='" + name + '\'' +
-                ", dateOfBirth='" + dateOfBirth + '\'' +
-                ", currentParty='" + currentParty + '\'' +
-                ", homeCounty='" + homeCounty + '\'' +
-                ", photoUrl='" + photoUrl + '\'' +
-                '}';
+        return name + " (" + currentParty + ")";
     }
+
 }

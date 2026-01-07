@@ -40,18 +40,18 @@
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="358.0" layoutY="277.0" mnemonicParsing="false" text="Add" />
-                              <Button layoutX="402.0" layoutY="277.0" mnemonicParsing="false" text="Edit" />
-                              <Button layoutX="446.0" layoutY="277.0" mnemonicParsing="false" text="Remove" />
+                              <Button layoutX="358.0" layoutY="277.0" mnemonicParsing="false" onAction="#addPolitician" text="Add" />
+                              <Button layoutX="402.0" layoutY="277.0" mnemonicParsing="false" onAction="#editPolitician" text="Edit" />
+                              <Button layoutX="446.0" layoutY="277.0" mnemonicParsing="false" onAction="#deletePolitician" text="Remove" />
                               <ListView fx:id="politicianListView" layoutX="358.0" layoutY="71.0" prefHeight="200.0" prefWidth="200.0" />
                               <Label layoutX="678.0" layoutY="43.0" text="Candidates">
                                  <font>
                                     <Font name="System Bold" size="16.0" />
                                  </font>
                               </Label>
-                              <Button layoutX="623.0" layoutY="275.0" mnemonicParsing="false" text="Add" />
-                              <Button layoutX="667.0" layoutY="275.0" mnemonicParsing="false" text="Edit" />
-                              <Button layoutX="711.0" layoutY="275.0" mnemonicParsing="false" text="Remove" />
+                              <Button layoutX="623.0" layoutY="275.0" mnemonicParsing="false" onAction="#addCandidate" text="Add" />
+                              <Button layoutX="667.0" layoutY="275.0" mnemonicParsing="false" onAction="#editCandidate" text="Edit" />
+                              <Button layoutX="711.0" layoutY="275.0" mnemonicParsing="false" onAction="#deleteCandidate" text="Remove" />
                               <ListView fx:id="candidateListView" layoutX="623.0" layoutY="69.0" prefHeight="200.0" prefWidth="200.0" />
                            </children>
                         </AnchorPane>
