@@ -252,13 +252,129 @@ public class ElectionAPI {
         return results;
     }
 
-    //todo test this not sure if it works
-    public void sortPoliticians(String name) {
+    public DynamicArray<Politician> sortPoliticians(PoliticianSortType type, SortAlgo algo) {
         DynamicArray<Politician> politicians = this.politicians.values();
 
-        Comparator<Politician> politicianComparator = (a,b) -> a.getName().compareTo(name);
+        // Copy into array
+        Object[] pArray = new Object[politicians.size()];
+        for (int i = 0; i < politicians.size(); i++) {
+            pArray[i] = politicians.get(i);
+        }
 
-        Utilities.insertionSort(politicians.toArray(), politicianComparator);
+        // choose comparator based on sort type
+        Comparator<Politician> comparator;
+
+        switch (type) {
+            case NAME:
+                comparator = (a, b) -> a.getName().compareToIgnoreCase(b.getName());
+                break;
+            case PARTY:
+                comparator = (a, b) -> a.getCurrentParty().compareToIgnoreCase(b.getCurrentParty());
+                break;
+            case COUNTY:
+                comparator = (a, b) -> a.getHomeCounty().compareToIgnoreCase(b.getHomeCounty());
+                break;
+            default:
+                return politicians;
+        }
+
+        // Choose algorithm
+        if (algo == SortAlgo.INSERTION) {
+            Utilities.insertionSort(pArray, comparator);
+        } else {
+            Utilities.mergeSort(pArray, comparator);
+        }
+
+        // Convert back to DynamicArray
+        DynamicArray<Politician> sortedResults = new DynamicArray<>();
+        for (Object obj : pArray) {
+            sortedResults.add((Politician) obj);
+        }
+
+        return sortedResults;
+    }
+
+
+    public DynamicArray<Election> sortElections(ElectionSortType sortType, SortAlgo algo) {
+
+        DynamicArray<Election> elections = this.elections.values();
+
+        // copy only the used elements (avoid nulls)
+        Object[] eArray = new Object[elections.size()];
+        for (int i = 0; i < elections.size(); i++) {
+            eArray[i] = elections.get(i);
+        }
+
+        Comparator<Election> comparator;
+
+        switch (sortType) {
+            case YEAR:
+                comparator = (a, b) -> Integer.compare(a.getYear(), b.getYear());
+                break;
+
+            case LOCATION:
+                comparator = (a, b) -> a.getLocation().compareToIgnoreCase(b.getLocation());
+                break;
+
+            case SEATS:
+                comparator = (a, b) -> Integer.compare(a.getSeats(), b.getSeats());
+                break;
+
+            default:
+                return elections; // no sorting
+        }
+
+        if (algo == SortAlgo.INSERTION) {
+            Utilities.insertionSort(eArray, comparator);
+        } else if (algo == SortAlgo.MERGE) {
+            Utilities.mergeSort(eArray, comparator);
+        }
+
+        DynamicArray<Election> sortedResults = new DynamicArray<>();
+        for (Object obj : eArray) {
+            sortedResults.add((Election) obj);
+        }
+
+        return sortedResults;
+    }
+
+
+    public DynamicArray<Candidate> sortCandidatesByVotes(String electionId, SortAlgo algo) {
+        Election election = elections.get(electionId);
+        if (election == null) return new DynamicArray<>();
+
+        DynamicArray<Candidate> candidates = election.getCandidates();
+        Object[] cArray = new Object[candidates.size()];
+        for (int i = 0; i < candidates.size(); i++) {
+            cArray[i] = candidates.get(i);
+        }
+
+        System.out.println("=== DEBUG ARRAY BEFORE SORT ===");
+        for (int i = 0; i < cArray.length; i++) {
+            System.out.println(i + ": " + cArray[i]);
+        }
+
+
+        Comparator<Candidate> voteComparator =
+                (a, b) -> Integer.compare(a.getVotes(), b.getVotes());
+
+        if (algo == SortAlgo.INSERTION) {
+            Utilities.insertionSort(cArray, voteComparator);
+        } else if (algo == SortAlgo.MERGE) {
+            Utilities.mergeSort(cArray, voteComparator);
+        }
+
+
+        for (int i = 0; i < cArray.length / 2; i++) {
+            Object temp = cArray[i];
+            cArray[i] = cArray[cArray.length - 1 - i];
+            cArray[cArray.length - 1 - i] = temp; }
+        DynamicArray<Candidate> sortedResults = new DynamicArray<>();
+        for (Object obj : cArray) {
+            sortedResults.add((Candidate) obj);
+        }
+
+        return sortedResults;
     }
 
     public DynamicArray<Election> getAllElections() {
@@ -298,8 +414,6 @@ public class ElectionAPI {
 
         return electionAPI;
     }
-
-
 
     public boolean clear() {
         if (file.exists()) {
