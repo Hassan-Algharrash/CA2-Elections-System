@@ -252,13 +252,75 @@ public class ElectionAPI {
         return results;
     }
 
-    //todo test this not sure if it works
-    public void sortPoliticians(String name) {
+    public DynamicArray<Politician> sortPoliticians(PoliticianSortType type) {
         DynamicArray<Politician> politicians = this.politicians.values();
+        Object[] pArray = politicians.toArray();
 
-        Comparator<Politician> politicianComparator = (a,b) -> a.getName().compareTo(name);
+        Comparator<Politician> nameComparator = (a, b) -> a.getName().compareToIgnoreCase(b.getName());
+        Comparator<Politician> partyComparator = (a, b) -> a.getCurrentParty().compareToIgnoreCase(b.getCurrentParty());
+        Comparator<Politician> countyComparator = (a, b) -> a.getHomeCounty().compareToIgnoreCase(b.getHomeCounty());
 
-        Utilities.insertionSort(politicians.toArray(), politicianComparator);
+        switch (type) {
+            case NAME: {
+                Utilities.insertionSort(pArray, nameComparator);
+                break;
+            }
+            case PARTY: {
+                Utilities.insertionSort(pArray, partyComparator);
+                break;
+            }
+            case COUNTY: {
+                Utilities.insertionSort(pArray, countyComparator);
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+
+        // Create a new DynamicArray to hold the sorted results
+        DynamicArray<Politician> sortedResults = new DynamicArray<>();
+        for (Object obj : pArray) {
+            sortedResults.add((Politician) obj);
+        }
+
+        return sortedResults;
+    }
+
+    public DynamicArray<Election> sortElections(ElectionType type) {
+        DynamicArray<Election> elections = this.elections.values();
+        Object[] eArray = elections.toArray();
+
+        Comparator<Election> typeComparator = (a, b) -> a.getType().compareTo(b.getType());
+
+        Utilities.insertionSort(eArray, typeComparator);
+
+        // Create a new DynamicArray to hold the sorted results
+        DynamicArray<Election> sortedResults = new DynamicArray<>();
+        for (Object obj : eArray) {
+            sortedResults.add((Election) obj);
+        }
+
+        return sortedResults;
+    }
+
+    public DynamicArray<Candidate> sortCandidatesByVotes(String electionId) {
+        Election election = elections.get(electionId);
+        if (election == null) return new DynamicArray<>();
+
+        DynamicArray<Candidate> candidates = election.getCandidates();
+        Object[] cArray = candidates.toArray();
+
+        Comparator<Candidate> voteComparator = (a, b) -> Integer.compare(b.getVotes(), a.getVotes());
+
+        Utilities.insertionSort(cArray, voteComparator);
+
+        DynamicArray<Candidate> sortedResults = new DynamicArray<>();
+        for (Object obj : cArray) {
+            sortedResults.add((Candidate) obj);
+        }
+
+        return sortedResults;
     }
 
     public DynamicArray<Election> getAllElections() {
@@ -298,8 +360,6 @@ public class ElectionAPI {
 
         return electionAPI;
     }
-
-
 
     public boolean clear() {
         if (file.exists()) {
