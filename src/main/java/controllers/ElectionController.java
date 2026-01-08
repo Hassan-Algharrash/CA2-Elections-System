@@ -3,10 +3,15 @@ package controllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.stage.Stage;
 import models.*;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -515,6 +520,22 @@ public class ElectionController implements Initializable {
         System.out.println("Sorted " + results.size() + " elections by " + sortType);
     }
 
+    private void openPoliticianDetails(Politician politician) {
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Politician Details");
+        alert.setHeaderText(politician.getName());
+        alert.setContentText(
+                "Party: " + politician.getCurrentParty() + "\n" +
+                        "County: " + politician.getHomeCounty() + "\n" +
+                        "DOB: " + politician.getDateOfBirth() + "\n" +
+                        "Photo URL: " + politician.getPhotoUrl()
+        );
+        alert.showAndWait();
+    }
+
+
+
+
 
     @FXML
     private void sortCandidates() {
@@ -537,6 +558,8 @@ public class ElectionController implements Initializable {
         }
 
         sortResultsListView.setItems(list);
+
+
     }
 
 
@@ -648,6 +671,20 @@ public class ElectionController implements Initializable {
                 updateCandidateList(selectedElection);
             }
         });
+
+        candidateListView.setOnMouseClicked(event -> {
+            System.out.println("CLICKED!");
+
+            Object selected = candidateListView.getSelectionModel().getSelectedItem();
+            System.out.println("Selected = " + selected);
+
+            if (selected instanceof Candidate) {
+                Candidate candidate = (Candidate) selected;
+                System.out.println("Opening details for: " + candidate.getPolitician().getName());
+                openPoliticianDetails(candidate.getPolitician());
+            }
+        });
+
 
 
         // load elections, politicians, candidates from save file
