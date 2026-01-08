@@ -415,6 +415,8 @@ public class ElectionAPI {
         return electionAPI;
     }
 
+
+
     public boolean clear() {
         if (file.exists()) {
             return file.delete();
